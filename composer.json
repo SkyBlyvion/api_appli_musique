@@ -13,7 +13,8 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.0.*",
         "symfony/runtime": "7.0.*",
-        "symfony/yaml": "7.0.*"
+        "symfony/yaml": "7.0.*",
+        "vich/uploader-bundle": "^2.3"
     },
     "require-dev": {
         "doctrine/dbal": "^3",

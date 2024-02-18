@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Album;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -98,4 +99,21 @@ public function configureActions(Actions $actions): Actions
         ];
     }
     */
+
+    //persister lors de la création d'un album, on génère la date
+public function persistEntity(EntityManagerInterface $em, $entityInstance): void
+{
+    if (!$entityInstance instanceof Album) return;
+    $entityInstance->setCreatedAt(new \DateTimeImmutable());
+    parent::persistEntity($em, $entityInstance);
+}
+
+//persister lors de la modification d'un album, on génère la date
+public function updateEntity(EntityManagerInterface $em, $entityInstance): void
+{
+    if (!$entityInstance instanceof Album) return;
+    $entityInstance->setUpdatedAt(new \DateTimeImmutable());
+    parent::updateEntity($em, $entityInstance);
+}
+
 }

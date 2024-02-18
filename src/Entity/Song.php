@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\SongRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SongRepository;
+use Vich\UploaderBundle\Entity\File;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: SongRepository::class)]
+#[Vich\Uploadable]
 class Song
 {
     #[ORM\Id]
@@ -29,6 +32,20 @@ class Song
 
     #[ORM\OneToMany(targetEntity: PlaylistSong::class, mappedBy: 'song_id')]
     private Collection $playlistSongs;
+
+    #[Vich\UploadableField(mapping: "songs", fileNameProperty: "filePath")]
+    private ?File $filePathFile = null;
+
+    public function getFilePathFile(): ?File
+    {
+        return $this->filePathFile;
+    }
+
+    public function setFilePathFile(?File $filePathFile = null): void
+    {
+        $this->filePathFile = $filePathFile;
+    }
+
 
     public function __construct()
     {
