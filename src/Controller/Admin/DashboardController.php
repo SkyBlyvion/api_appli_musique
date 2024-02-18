@@ -2,18 +2,32 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Controller\Admin\GenreCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(
+        private AdminUrlGenerator $adminUrlGenerator
+    )
+    {
+        
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
+        // entrypoint
+        $url = $this->adminUrlGenerator->setController(GenreCrudController::class)->generateUrl();
+
+        return $this->redirect($url);
+
+        // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -35,7 +49,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('App');
+            ->setTitle('<img src="/images/bo.jpg" style="width: 30px; height: 30px" alt="logo"><span class="text-small"> Spotify</span>')
+            ->setFaviconPath('/images/bo.jpg');
     }
 
     public function configureMenuItems(): iterable
