@@ -7,12 +7,50 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class AlbumCrudController extends AbstractCrudController
 {
+    //creation des constantes
+    public const ALBUM_BASE_PATH = 'uploads/images/albums/';
+
+    public const ALBUM_UPLOAD_DIR = 'public/uploads/images/albums/';
+
+    public function configureFields(string $pageName): iterable
+{
+    return [
+        IdField::new('id')->hideOnForm(),
+        TextField::new('title', label: 'Titre de l\'album'),
+        // TextEditorField::new('description', label: 'Description de l\'album'),
+        //Champs d'association avec une autre table
+        AssociationField::new('genre_id', label: 'Catégorie de l\'album'),
+        AssociationField::new('artist_id', label: 'Nom de l\'artiste'),
+        ImageField::new('imagePath', label: 'Choisir une image de couverture')
+            ->setBasePath(self::ALBUM_BASE_PATH)
+            ->setUploadDir(self::ALBUM_UPLOAD_DIR)
+            ->setUploadedFileNamePattern(
+                fn (UploadedFile $file): string => sprintf(
+                    'upload_%d_%s.%s',
+                    random_int(1, 9999),
+                    $file->getFilename(),
+                    $file->guessExtension()
+                )
+            ),
+        //On donne un nom de fichier unique pour éviter de venir écraser une image en cas de même nom
+        DateField::new('releaseDate', label: 'Date de sortie'),
+        //Ici on cache createdAt et updatedAt on passera les données grace au persister
+        DateField::new('createdAt')->hideOnForm(),
+        DateField::new('updatedAt')->hideOnForm(),
+    ];
+}
+
+
     public static function getEntityFqcn(): string
     {
         return Album::class;

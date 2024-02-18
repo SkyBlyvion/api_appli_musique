@@ -54,7 +54,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('<img src="/images/bo.jpg" style="width: 30px; height: 30px" alt="logo"><span class="text-small"> Spotify</span>')
+            ->setTitle('<img src="/uploads/images/bo.jpg" style="width: 30px; height: 30px" alt="logo"><span class="text-small"> Spotify</span>')
             ->setFaviconPath('/images/bo.jpg');
     }
 

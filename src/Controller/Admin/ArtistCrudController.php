@@ -50,14 +50,22 @@ public function configureActions(Actions $actions): Actions
         });
 }
 
-    /*
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle(Crud::PAGE_INDEX, 'Artistes')
+            ->setPageTitle(Crud::PAGE_EDIT, 'Modifier un artiste')
+            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter un artiste');
+    }
+
+    
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            IdField::new('id')->hideOnForm(),
+            TextField::new('name'),
+            TextEditorField::new('biography', 'Biographie de l\'artiste'),
         ];
     }
-    */
+    
 }
