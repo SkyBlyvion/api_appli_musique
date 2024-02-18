@@ -34,9 +34,13 @@ class User
     #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'user_id')]
     private Collection $user_id;
 
+    #[ORM\OneToMany(targetEntity: Preference::class, mappedBy: 'user_id')]
+    private Collection $preferences;
+
     public function __construct()
     {
         $this->user_id = new ArrayCollection();
+        $this->preferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +132,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($userId->getUserId() === $this) {
                 $userId->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Preference>
+     */
+    public function getPreferences(): Collection
+    {
+        return $this->preferences;
+    }
+
+    public function addPreference(Preference $preference): static
+    {
+        if (!$this->preferences->contains($preference)) {
+            $this->preferences->add($preference);
+            $preference->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreference(Preference $preference): static
+    {
+        if ($this->preferences->removeElement($preference)) {
+            // set the owning side to null (unless already changed)
+            if ($preference->getUserId() === $this) {
+                $preference->setUserId(null);
             }
         }
 
