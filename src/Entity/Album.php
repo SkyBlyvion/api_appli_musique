@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,11 +17,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['album_read']],
     denormalizationContext: ['groups' => ['album_write']],
 )]
-// #[ApiFilter(
-//     SearchFilter::class, properties: [
-//         'id' => 'exact', 
-//     ]
-// )]
+#[ApiFilter(
+    SearchFilter::class, properties: [
+        'id' => 'exact', 
+    ]
+)]
 class Album
 {
     #[ORM\Id]
@@ -30,11 +30,11 @@ class Album
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['album_read', 'album_write'])]
+    #[Groups(['album_read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['album_read', 'album_write'])]
+    #[Groups(['album_read'])]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(length: 255)]

@@ -73,7 +73,7 @@ public function configureFields(string $pageName): iterable
                 ->hideOnForm()
                 ->formatValue(function ($value, $entity) {
                     return '<audio controls>
-                                <source src="/upload/files/music/' . $value . '" type="audio/mpeg">
+                                <source src="/uploads/files/music/' . $value . '" type="audio/mpeg">
                             </audio>';
                 }),
             NumberField::new('duration', 'durée du titre'),
