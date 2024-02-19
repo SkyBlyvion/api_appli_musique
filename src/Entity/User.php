@@ -31,15 +31,15 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
-    #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'user')]
-    private Collection $playlist;
+    #[ORM\OneToMany(targetEntity: Playlist::class, mappedBy: 'user_id')]
+    private Collection $user_id;
 
-    #[ORM\OneToMany(targetEntity: Preference::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Preference::class, mappedBy: 'user_id')]
     private Collection $preferences;
 
     public function __construct()
     {
-        $this->playlist = new ArrayCollection();
+        $this->user_id = new ArrayCollection();
         $this->preferences = new ArrayCollection();
     }
 
@@ -113,13 +113,13 @@ class User
      */
     public function getUserId(): Collection
     {
-        return $this->playlist;
+        return $this->user_id;
     }
 
     public function addUserId(Playlist $userId): static
     {
-        if (!$this->playlist->contains($userId)) {
-            $this->playlist->add($userId);
+        if (!$this->user_id->contains($userId)) {
+            $this->user_id->add($userId);
             $userId->setUserId($this);
         }
 
@@ -128,7 +128,7 @@ class User
 
     public function removeUserId(Playlist $userId): static
     {
-        if ($this->playlist->removeElement($userId)) {
+        if ($this->user_id->removeElement($userId)) {
             // set the owning side to null (unless already changed)
             if ($userId->getUserId() === $this) {
                 $userId->setUserId(null);

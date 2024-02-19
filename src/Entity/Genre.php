@@ -18,14 +18,17 @@ class Genre
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Album::class, mappedBy="genre")
-     */
-    private Collection $albums;
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'genre_id')]
+    private Collection $genre_id;
 
     public function __construct()
     {
-        $this->albums = new ArrayCollection();
+        $this->genre_id = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->label;
     }
 
     public function getId(): ?int
@@ -48,36 +51,30 @@ class Genre
     /**
      * @return Collection<int, Album>
      */
-    public function getAlbums(): Collection
+    public function getArtistId(): Collection
     {
-        return $this->albums;
+        return $this->genre_id;
     }
 
-    public function addAlbum(Album $album): static
+    public function addArtistId(Album $artistId): static
     {
-        if (!$this->albums->contains($album)) {
-            $this->albums->add($album);
-            $album->setGenre($this);
+        if (!$this->genre_id->contains($artistId)) {
+            $this->genre_id->add($artistId);
+            $artistId->setGenreId($this);
         }
 
         return $this;
     }
 
-    public function removeAlbum(Album $album): static
+    public function removeArtistId(Album $artistId): static
     {
-        if ($this->albums->removeElement($album)) {
+        if ($this->genre_id->removeElement($artistId)) {
             // set the owning side to null (unless already changed)
-            if ($album->getGenre() === $this) {
-                $album->setGenre(null);
+            if ($artistId->getGenreId() === $this) {
+                $artistId->setGenreId(null);
             }
         }
 
         return $this;
     }
-
-    public function __toString()
-    {
-        return $this->label;
-    }
 }
-

@@ -22,12 +22,12 @@ class Artist
     #[ORM\Column(type: Types::TEXT)]
     private ?string $biography = null;
 
-    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist')]
-    private Collection $album;
+    #[ORM\OneToMany(targetEntity: Album::class, mappedBy: 'artist_id')]
+    private Collection $artist_id;
 
     public function __construct()
     {
-        $this->album = new ArrayCollection();
+        $this->artist_id = new ArrayCollection();
     }
 
     public function __toString()
@@ -67,27 +67,27 @@ class Artist
     /**
      * @return Collection<int, Album>
      */
-    public function getartist(): Collection
+    public function getArtistId(): Collection
     {
-        return $this->album;
+        return $this->artist_id;
     }
 
-    public function addartist(Album $artist): static
+    public function addArtistId(Album $artistId): static
     {
-        if (!$this->album->contains($artist)) {
-            $this->album->add($artist);
-            $artist->setartist($this);
+        if (!$this->artist_id->contains($artistId)) {
+            $this->artist_id->add($artistId);
+            $artistId->setArtistId($this);
         }
 
         return $this;
     }
 
-    public function removeartist(Album $artist): static
+    public function removeArtistId(Album $artistId): static
     {
-        if ($this->album->removeElement($artist)) {
+        if ($this->artist_id->removeElement($artistId)) {
             // set the owning side to null (unless already changed)
-            if ($artist->getArtist() === $this) {
-                $artist->setArtist(null);
+            if ($artistId->getArtistId() === $this) {
+                $artistId->setArtistId(null);
             }
         }
 

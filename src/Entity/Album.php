@@ -46,21 +46,21 @@ class Album
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'artist')]
-    private ?Genre $genre = null;
+    #[ORM\ManyToOne(inversedBy: 'artist_id')]
+    private ?Genre $genre_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'artist')]
-    private ?Artist $artist = null;
+    #[ORM\ManyToOne(inversedBy: 'artist_id')]
+    private ?Artist $artist_id = null;
 
-    #[ORM\OneToMany(targetEntity: Song::class, mappedBy: 'album')]
-    private Collection $songs;
+    #[ORM\OneToMany(targetEntity: Song::class, mappedBy: 'album_id')]
+    private Collection $album_id;
 
-    #[ORM\OneToMany(targetEntity: Preference::class, mappedBy: 'album')]
+    #[ORM\OneToMany(targetEntity: Preference::class, mappedBy: 'album_id')]
     private Collection $preferences;
 
     public function __construct()
     {
-        $this->songs = new ArrayCollection();
+        $this->album_id = new ArrayCollection();
         $this->preferences = new ArrayCollection();
     }
 
@@ -135,26 +135,26 @@ class Album
         return $this;
     }
 
-    public function getGenre(): ?Genre
+    public function getGenreId(): ?Genre
     {
-        return $this->genre;
+        return $this->genre_id;
     }
 
-    public function setGenre(?Genre $genre): static
+    public function setGenreId(?Genre $genre_id): static
     {
-        $this->genre = $genre;
+        $this->genre_id = $genre_id;
 
         return $this;
     }
 
-    public function getArtist(): ?Artist
+    public function getArtistId(): ?Artist
     {
-        return $this->artist;
+        return $this->artist_id;
     }
 
-    public function setArtist(?Artist $artist): static
+    public function setArtistId(?Artist $artist_id): static
     {
-        $this->artist = $artist;
+        $this->artist_id = $artist_id;
 
         return $this;
     }
@@ -162,27 +162,27 @@ class Album
     /**
      * @return Collection<int, Song>
      */
-    public function getAlbum(): Collection
+    public function getAlbumId(): Collection
     {
-        return $this->songs;
+        return $this->album_id;
     }
 
-    public function addAlbum(Song $album): static
+    public function addAlbumId(Song $albumId): static
     {
-        if (!$this->songs->contains($album)) {
-            $this->songs->add($album);
-            $album->setAlbum($this);
+        if (!$this->album_id->contains($albumId)) {
+            $this->album_id->add($albumId);
+            $albumId->setAlbumId($this);
         }
 
         return $this;
     }
 
-    public function removeAlbum(Song $album): static
+    public function removeAlbumId(Song $albumId): static
     {
-        if ($this->songs->removeElement($album)) {
+        if ($this->album_id->removeElement($albumId)) {
             // set the owning side to null (unless already changed)
-            if ($album->getAlbum() === $this) {
-                $album->setAlbum(null);
+            if ($albumId->getAlbumId() === $this) {
+                $albumId->setAlbumId(null);
             }
         }
 
@@ -201,7 +201,7 @@ class Album
     {
         if (!$this->preferences->contains($preference)) {
             $this->preferences->add($preference);
-            $preference->setAlbum($this);
+            $preference->setAlbumId($this);
         }
 
         return $this;
@@ -211,8 +211,8 @@ class Album
     {
         if ($this->preferences->removeElement($preference)) {
             // set the owning side to null (unless already changed)
-            if ($preference->getAlbum() === $this) {
-                $preference->setAlbum(null);
+            if ($preference->getAlbumId() === $this) {
+                $preference->setAlbumId(null);
             }
         }
 

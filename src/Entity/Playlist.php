@@ -18,10 +18,10 @@ class Playlist
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    private ?User $user = null;
+    #[ORM\ManyToOne(inversedBy: 'user_id')]
+    private ?User $user_id = null;
 
-    #[ORM\OneToMany(targetEntity: PlaylistSong::class, mappedBy: 'playlist')]
+    #[ORM\OneToMany(targetEntity: PlaylistSong::class, mappedBy: 'playlist_id')]
     private Collection $playlistSongs;
 
     public function __construct()
@@ -48,12 +48,12 @@ class Playlist
 
     public function getUserId(): ?User
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUserId(?User $user): static
+    public function setUserId(?User $user_id): static
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
 
         return $this;
     }
