@@ -77,7 +77,7 @@ public function configureFields(string $pageName): iterable
                             </audio>';
                 }),
             NumberField::new('duration', 'durée du titre'),
-            AssociationField::new('album_id', 'Album associé'),
+            AssociationField::new('album', 'Album associé'),
         ];
     }
 

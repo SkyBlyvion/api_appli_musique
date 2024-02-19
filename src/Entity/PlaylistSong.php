@@ -14,10 +14,10 @@ class PlaylistSong
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlistSongs')]
-    private ?Playlist $playlist_id = null;
+    private ?Playlist $playlist = null;
 
     #[ORM\ManyToOne(inversedBy: 'playlistSongs')]
-    private ?Song $song_id = null;
+    private ?Song $song = null;
 
     public function getId(): ?int
     {
@@ -26,24 +26,24 @@ class PlaylistSong
 
     public function getPlaylistId(): ?Playlist
     {
-        return $this->playlist_id;
+        return $this->playlist;
     }
 
-    public function setPlaylistId(?Playlist $playlist_id): static
+    public function setPlaylistId(?Playlist $playlist): static
     {
-        $this->playlist_id = $playlist_id;
+        $this->playlist = $playlist;
 
         return $this;
     }
 
     public function getSongId(): ?Song
     {
-        return $this->song_id;
+        return $this->song;
     }
 
-    public function setSongId(?Song $song_id): static
+    public function setSongId(?Song $song): static
     {
-        $this->song_id = $song_id;
+        $this->song = $song;
 
         return $this;
     }

@@ -14,10 +14,10 @@ class Preference
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'preferences')]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'preferences')]
-    private ?Album $album_id = null;
+    private ?Album $album = null;
 
     public function getId(): ?int
     {
@@ -26,24 +26,24 @@ class Preference
 
     public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setUserId(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getAlbumId(): ?Album
+    public function getAlbum(): ?Album
     {
-        return $this->album_id;
+        return $this->album;
     }
 
-    public function setAlbumId(?Album $album_id): static
+    public function setAlbum(?Album $album): static
     {
-        $this->album_id = $album_id;
+        $this->album = $album;
 
         return $this;
     }

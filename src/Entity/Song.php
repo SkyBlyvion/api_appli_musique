@@ -27,10 +27,10 @@ class Song
     #[ORM\Column]
     private ?float $duration = null;
 
-    #[ORM\ManyToOne(inversedBy: 'album_id')]
-    private ?Album $album_id = null;
+    #[ORM\ManyToOne(inversedBy: 'album')]
+    private ?Album $album = null;
 
-    #[ORM\OneToMany(targetEntity: PlaylistSong::class, mappedBy: 'song_id')]
+    #[ORM\OneToMany(targetEntity: PlaylistSong::class, mappedBy: 'song')]
     private Collection $playlistSongs;
 
     #[Vich\UploadableField(mapping: "songs", fileNameProperty: "filePath")]
@@ -93,14 +93,14 @@ class Song
         return $this;
     }
 
-    public function getAlbumId(): ?Album
+    public function getAlbum(): ?Album
     {
-        return $this->album_id;
+        return $this->album;
     }
 
-    public function setAlbumId(?Album $album_id): static
+    public function setAlbum(?Album $album): static
     {
-        $this->album_id = $album_id;
+        $this->album = $album;
 
         return $this;
     }

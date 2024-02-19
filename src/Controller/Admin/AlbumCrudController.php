@@ -30,8 +30,8 @@ class AlbumCrudController extends AbstractCrudController
         TextField::new('title', label: 'Titre de l\'album'),
         // TextEditorField::new('description', label: 'Description de l\'album'),
         //Champs d'association avec une autre table
-        AssociationField::new('genre_id', label: 'Catégorie de l\'album'),
-        AssociationField::new('artist_id', label: 'Nom de l\'artiste'),
+        AssociationField::new('genre', label: 'Catégorie de l\'album'),
+        AssociationField::new('artist', label: 'Nom de l\'artiste'),
         ImageField::new('imagePath', label: 'Choisir une image de couverture')
             ->setBasePath(self::ALBUM_BASE_PATH)
             ->setUploadDir(self::ALBUM_UPLOAD_DIR)
@@ -105,6 +105,7 @@ public function persistEntity(EntityManagerInterface $em, $entityInstance): void
 {
     if (!$entityInstance instanceof Album) return;
     $entityInstance->setCreatedAt(new \DateTimeImmutable());
+    $entityInstance->setUpdatedAt(new \DateTimeImmutable());
     parent::persistEntity($em, $entityInstance);
 }
 
