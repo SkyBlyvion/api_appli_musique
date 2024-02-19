@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Song;
 use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Entity\File;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -59,27 +60,27 @@ public function configureActions(Actions $actions): Actions
 }
 
 public function configureFields(string $pageName): iterable
-{
-    return [
-        IdField::new( 'id')->hideOnForm(),
-        TextField::new( 'title', label: 'titre de la chanson'),
-        TextField::new( 'filePathFile', label: 'choisir un fichier mp3')
-            ->setFormType(VichFileType::class)
-            ->hideOnIndex()
-            ->hideOnDetail(),
-        TextField::new( 'filePath', label: 'Nom du fichier mp3')
-            ->hideOnForm()
-            ->hideOnDetail(),
-        ImageField::new( 'filePath', label: 'choisir un fichier mp3')
-            ->setBasePath(path: '/upload/files/music')
-            ->hideOnForm()
-            ->hideOnIndex()
-            ->hideOnDetail()
-            ->addHtmlContentsToBody('<p>Hello</p>'),
-        NumberField::new( 'duration', label: 'durée de la chanson'),
-        AssociationField::new( 'album_id', label: 'Album associé'),
-    ];
-}
+    {
+        return [
+            IdField::new('id')->hideOnForm(),
+            TextField::new('title', 'Titre de la chanson'),
+            ImageField::new('file_path', 'Choisir mp3')
+                ->setBasePath('/uploads/files/music')
+                ->setUploadDir('public/uploads/files/music')
+                ->hideOnIndex()
+                ->hideOnDetail(),
+            TextField::new('file_path', 'Aperçu')
+                ->hideOnForm()
+                ->formatValue(function ($value, $entity) {
+                    return '<audio controls>
+                                <source src="/upload/files/music/' . $value . '" type="audio/mpeg">
+                            </audio>';
+                }),
+            NumberField::new('duration', 'durée du titre'),
+            AssociationField::new('album_id', 'Album associé'),
+        ];
+    }
+
 
 
 
